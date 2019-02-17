@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import config from './config';
 import * as d3 from 'd3';
+import IndicateGroup from './indicate-group'
 
 // chart
 function Chart(props) {
@@ -22,7 +23,6 @@ const ticks = scale.ticks(100)
 function LArc(props) {
   const { start, end, color } = props
   
-  console.log(scale(start))
   let _arc = d3.arc()({
     innerRadius: 165,
     outerRadius: 185,
@@ -39,11 +39,45 @@ function LArc(props) {
 export default class Meter extends Component {
   constructor(props) {
     super(props)
+    
+    this.accelerate = this.accelerate.bind(this)
+    this.decelerate = this.decelerate.bind(this)
+    
+    this.state = {
+      speed: 0
+    }
+  }
+  
+  accelerate() {
+    const range = scale.domain()
+    let { speed } = this.state
+    if (speed < range[1]) {
+      speed += 2
+      this.setState({
+        speed
+      })
+    }
+  }
+  
+  decelerate() {
+    const range = scale.domain()
+    let { speed } = this.state
+    if (range[0] < speed) {
+      speed -= 2
+      this.setState({
+        speed
+      })
+    }
   }
   
   render() {
+    const { speed } = this.state
     return (
       <div className={'container'}>
+        <div>
+          <button onClick={this.accelerate}>加速</button>
+          <button onClick={this.decelerate}>减速</button>
+        </div>
         <Chart {...config}>
           <g transform={`translate(300, 300)`}>
             <circle cx={0} cy={0} r={204} fill={'rgba(158, 158, 158, .4)'}></circle>
@@ -70,12 +104,17 @@ export default class Meter extends Component {
             </g>
             
             <circle cx={0} cy={0} r={10} fill={'#'}></circle>
-            <path d={`M-20, 5L-20, -5L130, 0Z`} transform={`rotate(${scale(0)})`}>
+            <path d={`M-20, 5L-20, -5L130, 0Z`} transform={`rotate(${scale(speed)})`}>
               <animateTransform ></animateTransform>
             </path>
-            
+            <g transform={`translate(-62, 60)`}>
+              <IndicateGroup speed={speed}>
+              </IndicateGroup>
+              <text x={90} y={25} fontSize={24}>KM</text>
+            </g>
           </g>
         </Chart>
+        
       </div>
     )
   }
