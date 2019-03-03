@@ -1,21 +1,8 @@
 import React, { Component } from 'react';
 import config from './config';
 import * as d3 from 'd3';
-import IndicateGroup from './indicate-group'
-
-// chart
-function Chart(props) {
-  const { width, height, margin } = props
-  return (
-    <svg width={width} height={height}>
-      <g transform={`translate(${margin.left}, ${margin.top})`}>
-        {
-          props.children
-        }
-      </g>
-    </svg>
-  )
-}
+import IndicateGroup from './components/IndicateGroup';
+import Chart from './components/Chart';
 
 const scale = d3.scaleLinear().domain([0, 200]).range([150, 360 + 30])
 const ticks = scale.ticks(100)

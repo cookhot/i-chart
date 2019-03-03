@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import Indicate from './indicate'
-
+import Indicate from './Indicate'
 
 export default class IndicateGroup extends Component {
-  constructor(props) {
-    super(props)
-  }
   
   render () {
     let { speed } = this.props
@@ -18,7 +14,6 @@ export default class IndicateGroup extends Component {
     for(let start = indicates.length; start < 3; start++) {
       indicates.unshift(0)
     }
-    
     
     return (
       <>

@@ -12,3 +12,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.i-tree {
+  border: 1px solid #ddd;
+}
+
+.i-circles .i-circle{
+  fill: #FFF;
+  stroke: #cecece;
+  stroke-width: 3px;
+}
+
+.i-lines .i-line {
+  stroke: #ccc;
+}
