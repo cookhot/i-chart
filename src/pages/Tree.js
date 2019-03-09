@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-import config from './config';
-import Chart from './components/Chart'
+import config from '../config';
+import Chart from '../components/Chart'
 
 window.d3 = d3
 
