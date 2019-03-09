@@ -11,9 +11,22 @@ const data = {
     name: 'child1',
     children: [{
       name: 'child11'
+    }, {
+      name: 'child12'
+    }, {
+      name: 'child13'
     }]
   }, {
-    name: 'child2'
+    name: 'child2',
+    children: [{
+      name: 'child21',
+      children: [
+        {name: 'child211'}
+      ]
+    }, {
+      name: 'child22'
+    }
+    ]
   }]
 }
 
@@ -29,7 +42,7 @@ export default class Tree extends Component {
   init () {
     const tree = d3.hierarchy(data)
     // console.log(tree.sum)
-    tree.sum((d) => 1) // 每一个节点等量分配
+    tree.count((d) => 1) // 每一个节点等量分配
     // console.log(tree)
     const { width, height, margin } = config
     let c_width = width - margin.left - margin.right
@@ -44,10 +57,12 @@ export default class Tree extends Component {
     // 广度遍历
     tree.each((node) => {
       if (!node.children) return
+      
       d3.treemapDice(node, node.x0, node.y0, node.x1, node.y1)
     })
     
     // range => [0, ..., height]
+    // 按照深度分配节点高度
     this.heightScale = d3.scalePoint().domain(d3.range(0, tree.height + 1, 1)).range([0, c_height])
     
     return tree
@@ -59,7 +74,7 @@ export default class Tree extends Component {
     
     const { heightScale } = this
     
-    return [Math.floor((x0 + x1) / 2), heightScale(depth)]
+    return [Math.floor(x0 + ( x1 - x0) / 2), heightScale(depth)]
   }
   
   getCurveLine(link) {
@@ -87,10 +102,10 @@ export default class Tree extends Component {
         <Chart {...config} className={'i-tree'}>
           <g className={'i-lines'}>
             {
-              links.map((link) => {
+              links.map((link, i) => {
                 const _path = this.getCurveLine(link)
                 return (
-                  <path d={_path} className={'i-line'}></path>
+                  <path d={_path} className={'i-line'} key={i}></path>
                 )
               })
             }
