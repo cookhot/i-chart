@@ -3,7 +3,6 @@ import * as d3 from 'd3';
 import config from '../config';
 import Chart from '../components/Chart'
 
-window.d3 = d3
 
 const data = {
   name: 'root',
@@ -44,14 +43,12 @@ export default class Tree extends Component {
     // console.log(tree.sum)
     tree.count((d) => 1) // 每一个节点等量分配
     // console.log(tree)
-    const { width, height, margin } = config
-    let c_width = width - margin.left - margin.right
-    let c_height = height - margin.top - margin.bottom
+    const { width, height, margin, c_h, c_w } = config
     
     tree.x0 = 0
     tree.y0 = 0
-    tree.x1 = c_width
-    tree.y1 = c_height
+    tree.x1 = c_w
+    tree.y1 = c_h
     
     
     // 广度遍历
@@ -63,7 +60,7 @@ export default class Tree extends Component {
     
     // range => [0, ..., height]
     // 按照深度分配节点高度
-    this.heightScale = d3.scalePoint().domain(d3.range(0, tree.height + 1, 1)).range([0, c_height])
+    this.heightScale = d3.scalePoint().domain(d3.range(0, tree.height + 1, 1)).range([0, c_h])
     
     return tree
   }

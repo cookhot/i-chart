@@ -1,9 +1,3 @@
-svg .i-line {
-  shape-rendering: crispEdges;
-}
-
-.i-circles .i-circle{
-  fill: 'transparent';
-  stroke: #cecece;
-  stroke-width: 5px;
+.i-map {
+    border: 1px solid #ddd;
 }
